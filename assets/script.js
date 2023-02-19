@@ -55,21 +55,24 @@ for (var i = 0; i < data.length; i++) {
     city + "/" + state + "/" + country + "/" + lat + "/" + lon;
   cityEl.textContent = cityElText;
 
-  /*
+  
   cityEl.addEventListener("click", function() {
     var latLon = this.textContent.split("/");
-    getWeather(latLon[3], latLon[4]);
+    getCurrentWeather(latLon[3], latLon[4]);
+    getFutureWeather(latLon[3], latLon[4]);
   });
-*/
+
   cityListEl.appendChild(cityEl);
 }
 }
 
-/*
-var getWeather = function(lat, lon) {
-  var weatherRequest = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly&units=metric&appid=" + APIKey;
+//Current Weather Data:
+https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
-  fetch(weatherRequest)
+var getCurrentWeather = function(lat, lon) {
+  var currentWeatherRequest = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + APIKey;
+
+  fetch(currentWeatherRequest)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -84,5 +87,24 @@ var getWeather = function(lat, lon) {
       console.log(error);
     });
 }
-*/
+
+//5-day forecast data:
+var getFutureWeather = function(lat, lon) {
+  var futureWeatherRequest = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + APIKey;
+
+  fetch(futureWeatherRequest)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      // Display weather data
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
