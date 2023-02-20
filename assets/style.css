@@ -183,6 +183,12 @@
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
   }
+
+  .forecast-card {
+    width: 15%; /* set the width of the card element to a fixed pixel value */
+    /* or */
+    /* width: 30%; */ /* set the width of the card element to a percentage */
+  }
   
   /* HEIGHT / WIDTH UTILS */
   .min-100-vh {

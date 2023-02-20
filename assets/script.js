@@ -3,10 +3,11 @@ var APIKey = "e0eb50d18300e0e9f4c2b8a9758ede2a";
 
 var cityFormEl = document.querySelector("#user-form");
 cityFormEl.addEventListener("submit", citySearch);
-const weatherNetwork = document.getElementById("weatherDashboard");
-const fiveDayForecast = document.getElementById("fiveDayForecast");
+const weatherNetwork = document.getElementById("wrapper");
+const fiveDayForecastDiv = document.getElementById("fiveDayForecast");
 var currentForecastDiv = document.getElementById('currentForecast');
-
+var localStorageReset = document.getElementById('clearLocalStorage');
+var savedSearchButtonsEl = document.getElementById('savedSearchButtons');
 
 function citySearch(event){
   event.preventDefault();
@@ -114,7 +115,7 @@ var getCurrentWeather = function(cityName, countryCode, stateCode) {
       var windSpeed = "Wind: " + data.wind.speed + "m/s";
       var humidity = "Humidity: " + data.main.humidity + "%";
     
-      var currentForecastDiv = document.getElementById('currentForecast');
+      currentForecastDiv.innerHTML = "";
     
       // Create and append new HTML elements for weather data
       var cityNameElement = document.createElement('h2');
@@ -164,37 +165,70 @@ var getFutureWeather = function(cityName, countryCode, stateCode) {
     })
     .then(data => {
       console.log(data);
-      // Display weather data
-    })
-    .catch(error => {
+      fiveDayForecastDiv.innerHTML = "";
+      // Filter forecast data to only include noon data
+      var noonData = data.list.filter(item => {
+        return new Date(item.dt_txt).getHours() === 12;
+      });
+
+      // Display weather data for noon of each day
+      noonData.forEach(item => {
+        // Display weather data for noon of each day
+        var date = new Date(item.dt_txt).toLocaleDateString();
+        var temp = "Temp: " + item.main.temp + "°C";
+        var windSpeed = "Wind: " + item.wind.speed + "m/s";
+        var humidity = "Humidity: " + item.main.humidity + "%";
+        
+        // Create a new div element for each day's forecast
+        var forecastDiv = document.createElement('div');
+        forecastDiv.classList.add('forecast-card');
+        
+    
+        // Add date to the forecast card
+        var dateElement = document.createElement('p');
+        var date = new Date(item.dt_txt).toLocaleDateString();
+        dateElement.textContent = date;
+        forecastDiv.appendChild(dateElement);
+    
+        // Add icon to the forecast card
+        var iconElement = document.createElement('img');
+        var icon = 'https://openweathermap.org/img/w/' + item.weather[0].icon + '.png';
+        iconElement.src = icon;
+        forecastDiv.appendChild(iconElement);
+    
+        // Add temperature to the forecast card
+        var tempElement = document.createElement('p');
+        var temp = "Temp: " + item.main.temp + "°C";
+        tempElement.textContent = temp;
+        forecastDiv.appendChild(tempElement);
+    
+        // Add wind speed to the forecast card
+        var windElement = document.createElement('p');
+        var windSpeed = "Wind: " + item.wind.speed + "m/s";
+        windElement.textContent = windSpeed;
+        forecastDiv.appendChild(windElement);
+    
+        // Add humidity to the forecast card
+        var humidityElement = document.createElement('p');
+        var humidity = "Humidity: " + item.main.humidity + "%";
+        humidityElement.textContent = humidity;
+        forecastDiv.appendChild(humidityElement);
+    
+        // Append the forecast card to the parent element
+        fiveDayForecastDiv.appendChild(forecastDiv);
+      });
+
+      fiveDayForecastDiv.style.display = 'flex';
+      fiveDayForecastDiv.style.flexWrap = 'wrap';
+      })
+      .catch(error => {
       console.log(error);
     });
-
-    /*
-    //Current Weather Display:
-  var displayFutureWeather = function(){
-      fiveDayForecast.textContent = "5-Day forecast:"
-      var name = 
-      var date = 
-      var icon = 
-      var temp = 
-      var windSpeed = 
-      var humidity = 
-  };
-  */
 }
 
-
-
-
-/*
- //Sets the date at the top of the page using dayjs.
- document.getElementById("currentDay").innerHTML = dayjs().format("dddd, MMMM, D, h:mm A");
- //Sets dayjs to update every minute to make sure that the minute and hour.
- window.setInterval(function() {
-   document.getElementById("currentDay").innerHTML = dayjs().format("dddd, MMMM, D, h:mm A");
- }, 60000);
-*/
-
-
- //5-Day Weather Display:
+localStorageReset.addEventListener('click', function(){
+  localStorage.clear();
+  setTimeout(() => {
+    savedSearchButtonsEl.innerHTML = "";
+  }, 25);
+});
