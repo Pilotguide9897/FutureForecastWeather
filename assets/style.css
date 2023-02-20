@@ -1,10 +1,10 @@
 :root {
-    --primary: #ccdad1;
+    --primary: #8fc6d5c7;
     --secondary: #9caea9;
     --tertiary: #788585;
-    --light-dark: #6f6866;
-    --dark: #38302e;
-    --border-radius: 0.3rem;
+    --light-dark: #364042;
+    --dark: #1d1414;
+    --border-radius: 0.7rem;
   }
   
   * {
@@ -92,17 +92,17 @@
     box-shadow: 2px 2px var(--dark);
   }
   
-  .hero {
-    padding: 3% 4%;
+  .dashboard {
+    padding: 3% 4% 0% 4%;
     background-color: var(--dark);
     color: var(--primary);
   }
   
-  .hero p {
+  .dashboard p {
     max-width: 75%;
   }
   
-  .app-title {
+  .application-name {
     font-size: 3rem;
     background-color: var(--primary);
     color: var(--dark);
@@ -124,25 +124,6 @@
     background-color: var(--light-dark);
     color: var(--primary);
     text-decoration: none;
-  }
-  
-  .list-item:hover {
-    background-color: var(--dark);
-  }
-  
-  .status-icon {
-    padding: 2px 5px;
-    margin: 0 5px;
-    background-color: rgba(255, 255, 255, 1);
-    border-radius: var(--border-radius);
-  }
-  
-  .icon-danger {
-    color: rgb(255, 70, 70);
-  }
-  
-  .icon-success {
-    color: rgb(29, 153, 255);
   }
   
   /* CARDS */
@@ -185,9 +166,7 @@
   }
 
   .forecast-card {
-    width: 15%; /* set the width of the card element to a fixed pixel value */
-    /* or */
-    /* width: 30%; */ /* set the width of the card element to a percentage */
+    width: 15%; 
   }
   
   /* HEIGHT / WIDTH UTILS */
@@ -203,7 +182,7 @@
   .text-uppercase {
     text-transform: uppercase;
   }
-  
+ /* 
   /* FLEX CONTENT */
   .flex-row {
     display: flex;
@@ -503,3 +482,4 @@
       flex: 0 0 100%;
     }
   }
+  

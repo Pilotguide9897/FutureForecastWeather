@@ -10,8 +10,8 @@
 </head>
   
 <body class="flex-column min-100-vh">
-   <header class="hero">
-    <h1 class="app-title">
+   <header class="dashboard">
+    <h1 class="application-name">
       Weather Dashboard
     </h1>
     <p class="py-2">
@@ -20,23 +20,28 @@
   </header>
 
 <main class = "flex-row justify-space-between">
+  <!-- Form for the input of search specifications -->
   <div class="col-12 col-md-4">
     
     <div class = "card">
       <h4 class = "card-header text-uppercase">Search Weather by City</h4>
       <form id = "user-form" class = "card-body">
+        <!-- City Name Input -->
         <label class = "form-label"
         for = "cityName">City Name</label>
         <input name = "cityName" id="cityName"
         type = "text" autofocus = "true"
-        class = "form-input" placeholder="e.g., Fredericton" required/>
+        class = "form-input" placeholder="e.g., Fredericton" required/> 
+        <!-- I Only specifically required the city name, although further information on country and province/state/region could be added. -->
 
+         <!-- Country Code Input -->
         <label class = "form-label"
         for = "countryCode">Country Code</label>
         <input name = "countryCode" id="countryCode"
         type = "text" autofocus = "true"
         class = "form-input" placeholder="e.g., CA"/>
 
+         <!-- State/Province/Region Code Input -->
         <label class = "form-label"
         for = "stateCode"> State/Province</label>
         <input name = "stateCode" id="stateCode"
@@ -45,28 +50,27 @@
         <button type="submit" class="btn">Find City</button>
       </form>
     </div>
-
+    <!-- Section to present search history data -->
     <div class="card">
       <h3 class="card-header text-uppercase">search History</h3>
-      <div id="savedSearchButtons" class="card-body"></div>
+      <div id="savedSearchButtons" class="card-body flex-column"></div>
       <div id="clearLocalStorage" class="card-body">
-        <button type="button" id="clearLocalStorage" class="btn">Reset Search History</button>
+        <button type="button" id="clearLocalStorage" class="btn">Clear Search History</button>
       </div>
     </div>
-
   </div>
 
+  <!-- Section to include the weather data and main content of the page. Consists of two sections: one for the current weather and another to house the 5-day forecast. -->
   <div class="col-12 col-md-8" id="wrapper">
     <h2 class="subtitle"><span id="repo-search-term"></span></h2>
     <div id="weather">
       <h2 id="weatherDashboard">Displaying Weather information for: </h2>
     </div>
-    <div class ="border border-dark bg-light" id="currentForecast">
+    <div class ="border border-dark bg-light" id="currentForecast"> <!-- Current Weather -->
     </div>
-    <div class ="border border-dark bg-light justify-content-around" id="fiveDayForecast">
+    <div class ="border border-dark bg-light justify-content-around" id="fiveDayForecast"> <!--5-day Forecast -->
     </div>
   </div>
-  
 </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>

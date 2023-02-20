@@ -1,6 +1,7 @@
-// API Key:
+// API Key: Obtained from the OpenWeatherMap API website.
 var APIKey = "e0eb50d18300e0e9f4c2b8a9758ede2a";
 
+// Event Listeners and assigned elements from the DOM.
 var cityFormEl = document.querySelector("#user-form");
 cityFormEl.addEventListener("submit", citySearch);
 const weatherNetwork = document.getElementById("wrapper");
@@ -8,10 +9,14 @@ const fiveDayForecastDiv = document.getElementById("fiveDayForecast");
 var currentForecastDiv = document.getElementById('currentForecast');
 var localStorageReset = document.getElementById('clearLocalStorage');
 var savedSearchButtonsEl = document.getElementById('savedSearchButtons');
+var cityNameEl = document.getElementById('cityName');
+var countryCodeEl = document.getElementById('countryCode');
+var stateCodeEl = document.getElementById('stateCode');
 
+// Function to search cities upon form submission.
 function citySearch(event){
-  event.preventDefault();
-  console.log("the submit button has been clicked");
+  event.preventDefault(); // Prevents page from reloading on form submission.
+  //console.log("the submit button has been clicked");
 
   var cityName = document.querySelector("#cityName").value;
   var countryCode = document.querySelector("#countryCode").value;
@@ -21,7 +26,7 @@ function citySearch(event){
     getCurrentWeather(cityName, countryCode, stateCode);
     getFutureWeather(cityName, countryCode, stateCode);
   } else {
-    alert('Please enter a City Name')
+    alert('Please Enter a City Name')
   }
 }
 
@@ -37,7 +42,7 @@ function saveSearchHistory(cityName, countryCode, stateCode) {
 function createSavedSearchButton(cityName, countryCode, stateCode) {
   var buttonEl = document.createElement("button");
   buttonEl.textContent = `${cityName}, ${countryCode}, ${stateCode}`;
-  buttonEl.addEventListener("click", function() {
+  buttonEl.addEventListener("click", function() { // Sets the following functions to run for previously searched cities.
     getCurrentWeather(cityName, countryCode, stateCode);
     getFutureWeather(cityName, countryCode, stateCode);
   });
@@ -46,29 +51,32 @@ function createSavedSearchButton(cityName, countryCode, stateCode) {
 
 // Render saved search buttons
 function renderSavedSearches() {
-  var savedSearches = JSON.parse(localStorage.getItem("savedSearches")) || [];
+  var savedSearches = JSON.parse(localStorage.getItem("savedSearches")) || []; // Gets search history information from local storage.
   var savedSearchButtonsEl = document.querySelector("#savedSearchButtons");
-  savedSearchButtonsEl.innerHTML = "";
-  savedSearches.forEach(function(searchInfo) {
+  savedSearchButtonsEl.innerHTML = ""; // Initially sets the saved search buttons to an empty element.
+  savedSearches.forEach(function(searchInfo) { // Creates the new previous search buttons.
     var buttonEl = createSavedSearchButton(searchInfo.cityName, searchInfo.countryCode, searchInfo.stateCode);
     savedSearchButtonsEl.appendChild(buttonEl);
   });
 }
 
-// Call saveSearch() when form is submitted
+// Call saveSearch() when form is submitted.
 var cityFormEl = document.querySelector("#user-form");
 cityFormEl.addEventListener("submit", function(event) {
   event.preventDefault();
-  var cityName = document.querySelector("#cityName").value;
-  var countryCode = document.querySelector("#countryCode").value;
-  var stateCode = document.querySelector("#stateCode").value;
-  if (cityName) {
-    getCurrentWeather(cityName, countryCode, stateCode);
+  var cityName = document.querySelector("#cityName").value.trim(); //Used .trim to remove any unexpected spaces.
+  var countryCode = document.querySelector("#countryCode").value.trim(); //Used .trim to remove any unexpected spaces.
+  var stateCode = document.querySelector("#stateCode").value.trim(); //Used .trim to remove any unexpected spaces.
+  if (cityName) { // If a city name is provided, runs the following functions.
+    getCurrentWeather(cityName, countryCode, stateCode);  
     getFutureWeather(cityName, countryCode, stateCode);
     saveSearchHistory(cityName, countryCode, stateCode);
     renderSavedSearches();
+    cityNameEl.value = ""; // clear city name field
+    countryCodeEl.value = ""; // clear country code field
+    stateCodeEl.value = ""; // clear state code field
   } else {
-    alert("Please enter a City Name");
+    alert("Please Enter a City Name");
   }
 });
 
@@ -79,6 +87,7 @@ renderSavedSearches();
 var getCurrentWeather = function(cityName, countryCode, stateCode) {
   var currentWeatherRequest;
 
+// Logic to make sure that the URL accounts for whether information has been provided to add more specificity to the city location.
   if (countryCode && stateCode) {
     currentWeatherRequest = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + ',' + stateCode + ',' + countryCode + '&appid=' + APIKey + '&units=metric';
   } else if (countryCode) {
@@ -87,6 +96,7 @@ var getCurrentWeather = function(cityName, countryCode, stateCode) {
     currentWeatherRequest = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + APIKey + '&units=metric';
   }
 
+  // Fetch request to OpenWeatherMap web API. Takes in the 'currentWeatherRequest' as an argument.
   fetch(currentWeatherRequest)
     .then(response => {
       if (!response.ok) {
@@ -102,9 +112,6 @@ var getCurrentWeather = function(cityName, countryCode, stateCode) {
     .catch(error => {
       console.log(error);
     });
-
-    //const newTitle = document.createTextNode(cityName); // Create a new text node
-    //weatherNetwork.appendChild(newTitle); // Append the new text node to the HTML element 
 
     //Display Weather Data - 
     var displayCurrentWeather = function(data){
@@ -145,9 +152,9 @@ var getCurrentWeather = function(cityName, countryCode, stateCode) {
 }
 
 //5-day forecast data:
-var getFutureWeather = function(cityName, countryCode, stateCode) {
+var getFutureWeather = function(cityName, countryCode, stateCode) { // Takes in 3 parameters to make sure that the correct city is selected (e.g., selecting Fredericton, NB rather than Fredericton, PEI).
   var futureWeatherRequest;
-
+// Logic to make sure that the URL accounts for whether information has been provided to add more specificity to the city location.
   if (countryCode && stateCode) {
     futureWeatherRequest = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + ',' + stateCode + ',' + countryCode + '&appid=' + APIKey + '&units=metric';
   } else if (countryCode) {
@@ -156,6 +163,7 @@ var getFutureWeather = function(cityName, countryCode, stateCode) {
     futureWeatherRequest = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&appid=' + APIKey + '&units=metric';
   }
 
+  // Fetch request to OpenWeatherMap web API. Takes in the 'futureWeatherRequest' as an argument.
   fetch(futureWeatherRequest)
     .then(response => {
       if (!response.ok) {
@@ -165,8 +173,8 @@ var getFutureWeather = function(cityName, countryCode, stateCode) {
     })
     .then(data => {
       console.log(data);
-      fiveDayForecastDiv.innerHTML = "";
-      // Filter forecast data to only include noon data
+      fiveDayForecastDiv.innerHTML = ""; // Clears the section to make room for new searches.
+      // Filter forecast data to only include noon data.
       var noonData = data.list.filter(item => {
         return new Date(item.dt_txt).getHours() === 12;
       });
@@ -208,13 +216,13 @@ var getFutureWeather = function(cityName, countryCode, stateCode) {
         windElement.textContent = windSpeed;
         forecastDiv.appendChild(windElement);
     
-        // Add humidity to the forecast card
+        // Add humidity to the forecast card.
         var humidityElement = document.createElement('p');
         var humidity = "Humidity: " + item.main.humidity + "%";
         humidityElement.textContent = humidity;
         forecastDiv.appendChild(humidityElement);
     
-        // Append the forecast card to the parent element
+        // Append the forecast card to the parent element.
         fiveDayForecastDiv.appendChild(forecastDiv);
       });
 
@@ -226,9 +234,10 @@ var getFutureWeather = function(cityName, countryCode, stateCode) {
     });
 }
 
+// Adds event listener to the button to clear local storage and clear the body section with the recall buttons.
 localStorageReset.addEventListener('click', function(){
   localStorage.clear();
   setTimeout(() => {
-    savedSearchButtonsEl.innerHTML = "";
+    savedSearchButtonsEl.innerHTML = ""; //Sets the content of the section to an empty string as a means of clearing it.
   }, 25);
 });
