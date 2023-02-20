@@ -6,10 +6,12 @@ This application is developed as an app that travelers can use to easily search 
 
 The application functions by fetching available, open-source data available through the OpenWeatherMap web API then creating and appending new HTML elements to display the weather data on the page using the DOM to dynamically present users with weather information relevant to their search parameters. The code also includes functions to save search history to local storage, render saved search buttons on the page, and to create and append new HTML elements for saved search buttons. These functions allow users to record their search history to easily return to a previously searched city even after the page has been closed and later repopened.
 
-The deployed application may be accessed here.
+The deployed application may be accessed [here]( ).
 
 ## Screenshots
 
+![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%201.png).
+![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%202.png).
 
 ## Installation
 
