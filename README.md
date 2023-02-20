@@ -10,8 +10,8 @@ The deployed application may be accessed [here](https://pilotguide9897.github.io
 
 ## Screenshots
 
-![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%201.png).
-![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%202.png).
+![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%201.png)
+![Login](https://github.com/Pilotguide9897/FutureForecastWeather/blob/main/assets/Forecast%20App%20Screenshots/Screenshot%202.png)
 
 ## Installation
 
